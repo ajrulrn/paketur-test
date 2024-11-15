@@ -39,3 +39,6 @@
     ```
     php artisan serve
     ```
+
+## Documentation
+You'll find the documentation on [here](https://github.com/ajrulrn/paketur-test/tree/main/doc)

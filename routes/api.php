@@ -15,8 +15,8 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/{id}', [CompanyController::class, 'destroy']);
     });
     Route::prefix('managers')->group(function() {
-        Route::get('/', [CompanyController::class, 'index']);
-        Route::get('/{id}', [CompanyController::class, 'show']);
+        Route::get('/', [ManagerController::class, 'index']);
+        Route::get('/{id}', [ManagerController::class, 'show']);
     });
     Route::apiResource('employees', EmployeeController::class);
 });

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ManagerCollection;
+use App\Http\Resources\ManagerResource;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
@@ -30,15 +32,13 @@ class ManagerController extends Controller
         $perPage = $request->per_page ?? 10;
         $companyId = $user->role->name === 'Manager' ? $user->company_id : null;
         $employees = $this->userRepository->getManagerWithPagination($keyword, $direction, $companyId, $perPage);
-        return response()->json($employees);
+        return new ManagerCollection($employees);
     }
 
     public function show($id)
     {
         $user = auth('api')->user();
         $manager = $this->userRepository->getManagerById($id);
-        $statusCode = 200;
-        $response = ['data' => $manager];
 
         if (
             !$manager
@@ -47,10 +47,11 @@ class ManagerController extends Controller
                 && $manager->company_id !== $user->company_id
             )
         ) {
-            $statusCode = 404;
-            $response = ['message' => 'data not found'];
+            return response()->json([
+                'message' => 'data not found'
+            ], 404);
         }
 
-        return response()->json($response, $statusCode);
+        return new ManagerResource($manager);
     }
 }

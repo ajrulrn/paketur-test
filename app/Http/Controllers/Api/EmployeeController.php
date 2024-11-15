@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Resources\EmployeeCollection;
+use App\Http\Resources\EmployeeResource;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -26,15 +28,13 @@ class EmployeeController extends Controller
         $perPage = $request->per_page ?? 10;
         $companyId = in_array($user->role->name, ['Manager', 'Employee']) ? $user->company_id : null;
         $employees = $this->userRepository->getEmployeeWithPagination($keyword, $direction, $companyId, $perPage);
-        return response()->json($employees);
+        return new EmployeeCollection($employees);
     }
 
     public function show($id)
     {
         $user = auth('api')->user();
         $employee = $this->userRepository->getEmployeeById($id);
-        $statusCode = 200;
-        $response = ['data' => $employee];
 
         if (
             !$employee
@@ -43,11 +43,12 @@ class EmployeeController extends Controller
                 && $employee->company_id !== $user->company_id
             )
         ) {
-            $statusCode = 404;
-            $response = ['message' => 'data not found'];
+            return response()->json([
+                'message' => 'data not found'
+            ], 404);
         }
 
-        return response()->json($response, $statusCode);
+        return new EmployeeResource($employee);
     }
 
     public function store(StoreEmployeeRequest $request)

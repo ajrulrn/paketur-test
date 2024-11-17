@@ -42,6 +42,7 @@ class EmployeeController extends Controller
                 in_array($user->role->name, ['Manager', 'Employee'])
                 && $employee->company_id !== $user->company_id
             )
+            || $employee->role->name !== 'Employee'
         ) {
             return response()->json([
                 'message' => 'data not found'
@@ -101,7 +102,7 @@ class EmployeeController extends Controller
 
         if (
             $user->role->name !== 'Manager'
-            && $user->company_id !== $employee->company_id
+            || $user->company_id !== $employee->company_id
         ) {
             return response()->json([
                 'message' => 'unauthorized access'

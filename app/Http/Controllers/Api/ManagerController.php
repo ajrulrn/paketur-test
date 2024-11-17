@@ -46,6 +46,7 @@ class ManagerController extends Controller
                 $user->role->name === 'Manager'
                 && $manager->company_id !== $user->company_id
             )
+            || $user->role->name === 'Employee'
         ) {
             return response()->json([
                 'message' => 'data not found'

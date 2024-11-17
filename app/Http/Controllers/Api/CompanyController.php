@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Resources\CompanyCollection;
 use App\Repositories\CompanyRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class CompanyController extends Controller
         $direction = $request->direction;
         $perPage = $request->per_page ?? 10;
         $companies = $this->companyRepository->getWithPagination($keyword, $direction, $perPage);
-        return response()->json($companies);
+        return new CompanyCollection($companies);
     }
 
     public function store(StoreCompanyRequest $request)

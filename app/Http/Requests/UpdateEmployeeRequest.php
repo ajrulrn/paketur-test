@@ -30,11 +30,4 @@ class UpdateEmployeeRequest extends FormRequest
             'address' => 'required'
         ];
     }
-
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'errors' => $validator->errors()
-        ], 400));
-    }
 }

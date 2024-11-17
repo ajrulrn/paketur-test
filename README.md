@@ -40,5 +40,13 @@
     php artisan serve
     ```
 
+## Testing
+```
+php artisan test
+
+// need enable extension Xdebug or pcov
+php artisan test --coverage
+```
+
 ## API Documentation
 You'll find the API documentation on [here](https://github.com/ajrulrn/paketur-test/tree/main/doc)

@@ -40,5 +40,5 @@
     php artisan serve
     ```
 
-## Documentation
-You'll find the documentation on [here](https://github.com/ajrulrn/paketur-test/tree/main/doc)
+## API Documentation
+You'll find the API documentation on [here](https://github.com/ajrulrn/paketur-test/tree/main/doc)
